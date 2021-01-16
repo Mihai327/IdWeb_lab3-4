@@ -1,0 +1,56 @@
+<form #formFilter="ngForm" (ngSubmit)="onFilter()">
+    <div class="row">
+        <div *ngFor="let field of fields" class="col-sm-3">
+            <div
+                    [ngSwitch]="field.key"
+                    class="form-group"
+                    [ngClass]="field.cssClasses"
+            >
+                <ng-select
+                        *ngSwitchCase="'typeahead'"
+                        [placeholder]="field.placeholder"
+                        [typeToSearchText]="field.typeToSearchText"
+                        [items]="field.typeaheadOptions$ | async"
+                        [bindLabel]="field.bindLabel"
+                        [bindValue]="field.bindValue"
+                        [typeahead]="field.typeaheadInput$"
+                        [(ngModel)]="filterObject[field.name]"
+                        [name]="field.name"
+                >
+                </ng-select>
+                <input
+                        *ngSwitchCase="'input'"
+                        class="form-control"
+                        [placeholder]="field.placeholder"
+                        [type]="field.type"
+                        [(ngModel)]="filterObject[field.name]"
+                        [name]="field.name"
+                />
+                <ng-select
+                        *ngSwitchCase="'select'"
+                        [placeholder]="field.placeholder"
+                        [items]="field.selectOptions"
+                        [bindLabel]="field.bindLabel"
+                        [bindValue]="field.bindValue"
+                        [(ngModel)]="filterObject[field.name]"
+                        [name]="field.name"
+                >
+                </ng-select>
+                <input
+                        *ngSwitchCase="'date'"
+                        class="form-control"
+                        ngbDatepicker
+                        #d="ngbDatepicker"
+                        [(ngModel)]="filterObject[field.name]"
+                        [placeholder]="field.placeholder"
+                        [type]="field.type"
+                        [name]="field.name"
+                        (click)="d.toggle()"
+                />
+            </div>
+        </div>
+        <div class="col-sm-3" [ngClass]="cssOffsetClassesBtn">
+            <button class="btn btn-misti">Filter</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+$primary-color: #e64a25;
+:host ::ng-deep {
+    .popover {
+      max-width: unset;
+      box-shadow: 0px 0px 15px -5px #888888;
+      .popover-body {
+        background-color: #fff;
+        a {
+          color: #000;
+        }
+  
+        i {
+          color: $primary-color;
+        }
+      }
+      &.bs-popover-bottom > .arrow::after {
+        border-bottom-color: #fff;
+      }
+    }
+  
+    .file-upload {
+      min-height: 100px;
+      label {
+        &.upload-input {
+          width: 80%;
+        }
+      }
+    }
+  }

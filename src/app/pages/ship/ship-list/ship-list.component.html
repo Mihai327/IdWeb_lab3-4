@@ -1,0 +1,43 @@
+<div class="filter-ct">
+    <app-filter [fields]="filterFields" (filter)="onFilter($event)"></app-filter>
+</div>
+<div>
+    <app-table-async
+            [columns]="columns"
+            [asyncRow]="asyncShips"
+            [meta]="meta"
+            [isLoading]="isLoading"
+            (onPage)="pageChanged($event)"></app-table-async>
+
+    <div class="text-right mt-4">
+        <button class="btn btn-misti" (click)="onCreateShip()">Nieuw schip toevoegen</button>
+    </div>
+</div>
+
+<ng-template #skeletonTable>
+    <skeleton-table></skeleton-table>
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-row="row">
+    <div class="table-actions">
+        <i class="mdi mdi mdi-pencil clickable icon-edit" (click)="onUpdateShip(row)"></i>
+        <i class="mdi mdi mdi-delete clickable icon-delete" (click)="onDeleteShip(row)"></i>
+        <i class="mdi mdi mdi-magnify clickable icon-delete" [routerLink]="['/administrator/ships', row.id]" title="Bekijken"></i>
+    </div>
+</ng-template>
+
+<ng-template #modalBodyTpl let-row="row">
+    Weet u zeker dat u <span class="highlighted">{{row.name}}</span> wilt verwijderen? Alle producten met betrekking tot dit schip zullen niet meer zichtbaar zijn voor gebruikers.
+</ng-template>
+
+<ng-template #inlineModalBodyTpl1 let-row="row">
+    Wilt u een product toevoegen aan het nieuw toegevoegde schip <span class="highlighted">{{row.name}}</span>?
+    U kunt ook terugkeren naar de scheepsindex en op een later tijdstip een product toevoegen.
+</ng-template>
+
+<ng-template #inlineModalBodyTpl2 let-row="row">
+    Wilt u nog een product toevoegen aan het schip <span class="highlighted">{{row.name}}</span>?
+    U kunt ook terugkeren naar de scheepsindex en op een later tijdstip meer producten toevoegen.
+</ng-template>
+
+

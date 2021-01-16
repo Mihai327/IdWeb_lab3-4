@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <div class="row">
+            <div [ngClass]="[category ? 'col-sm-5' : 'col-sm-12']">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <shared-form-input label="Productnaam" placeholder="Vul je productnaam in" controlName="name"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-typeahead label="Schip" placeholder="Selecteer een schip" controlName="ship_id"
+                                               [group]="form"
+                                               [serverService]="shipService"
+                                               [serverServiceFunction]="'getShips'"
+                                               [serverServiceFunctionParams]="{fields: 'id,name'}"
+                                               [defaultOptions]="shipOptions"></shared-form-typeahead>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="S/N Nummer" placeholder="Vul je S/N nummer in" controlName="build_number"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Bouwjaar" placeholder="Vul je bouwjaar in" controlName="build_year"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-select label="Productcategorie" placeholder="Vul je productcategorie in"
+                                            controlName="category" [options]="categoryOptions"
+                                            [group]="form"></shared-form-select>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-file label="Uitgelichte afbeelding" controlName="image" [group]="form"
+                                          [multiple]="false"></shared-form-file>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <hr class="vertical-line">
+            </div>
+            <div *ngIf="category" class="col-sm-5">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <shared-form-input label="Type" placeholder="Voer het type in" controlName="type"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                </div>
+                <div *ngIf="category === '1'" class="row">
+                    <div class="col-sm-12">
+                        <shared-form-input label="WLL (kg)" placeholder="Voer het gewicht in" groupName="details"
+                                           controlName="weight" type="number" [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Lengte In (m)" placeholder="Voer de lengte in" groupName="details"
+                                           controlName="length_in" type="number" [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Lengte uit (m)" placeholder="Voer de lengte in" groupName="details"
+                                           controlName="length_out" type="number" [group]="form"></shared-form-input>
+                    </div>
+                </div>
+                <div *ngIf="category === '2'" class="row">
+                    <div class="col-sm-12">
+                        <shared-form-input label="Max. elek. vermogen (kW)" placeholder="Voer het vermogen in"
+                                           groupName="details" controlName="power" type="number"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Max. Oliedruk (bar)" placeholder="Voer de oliedruk in"
+                                           groupName="details" controlName="oil_pressure" type="number"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Uitgestrekte lengte (m)" placeholder="Voer de uitgestrekte lengte in"
+                                           groupName="details" controlName="length_extended" type="number"
+                                           [group]="form"></shared-form-input>
+                    </div>
+                    <div class="col-sm-12">
+                        <shared-form-input label="Kettingtype" placeholder="Voer het kettingtype in" groupName="details"
+                                           controlName="chain_type" [group]="form"></shared-form-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Annuleren</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Opslaan</button>
+</div>

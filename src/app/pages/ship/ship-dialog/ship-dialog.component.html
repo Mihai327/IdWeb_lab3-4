@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-12">
+                <shared-form-input label="Naam" placeholder="Voer een naam in" controlName="name"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-typeahead label="Bedrijf" placeholder="Selecteer een bedrijf" controlName="company_id"
+                                       [group]="form"
+                                       [serverService]="companyService"
+                                       [serverServiceFunction]="'getCompanies'"
+                                       [serverServiceFunctionParams]="{fields: 'id,name'}"
+                                       [defaultOptions]="companyOptions"></shared-form-typeahead>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Type" placeholder="Vul je type in" controlName="type"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Eu Nummer" placeholder="Vul je eu nummer in" controlName="eu_number"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Bouwjaar" placeholder="Vul je bouwjaar in" controlName="build_year"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Bouwplaats" placeholder="Vul je bouwplaats in"
+                                   controlName="construction_site" [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Nationaliteit" placeholder="Vul je nationaliteit in" controlName="nationality"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-file label="Uitgelichte Afbeelding" controlName="image" [group]="form"
+                                  [multiple]="false"></shared-form-file>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Annuleren</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Opslaan</button>
+</div>

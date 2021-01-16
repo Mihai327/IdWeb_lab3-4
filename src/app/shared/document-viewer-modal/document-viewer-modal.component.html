@@ -1,0 +1,15 @@
+<div class="modal-body">
+    <div class="document-title">
+        <h4 class="modal-title">{{file.label}}</h4>
+        <div class="d-flex">
+            <div *ngIf="type === 'image'" class="doc-download mr-3"><a class="clickable" (click)="onSaveFile()"><i class="mdi mdi-download"></i></a></div>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div [ngSwitch]="type" class="viewer-block">
+        <iframe *ngSwitchCase="'document'" [src]="sanitizer.bypassSecurityTrustResourceUrl(file.fileUrl)" width="100%" height="100%"></iframe>
+        <img *ngSwitchCase="'image'" [src]="sanitizer.bypassSecurityTrustResourceUrl(file.fileUrl)"/>
+    </div>
+</div>

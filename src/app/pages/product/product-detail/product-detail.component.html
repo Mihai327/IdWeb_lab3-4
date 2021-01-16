@@ -1,0 +1,158 @@
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <img [src]="productImage" width="100%">
+                        <div class="row justify-content-between mb-3 mt-4">
+                            <div class="col">
+                                <h4><b>Afbeeldingen</b></h4>
+                            </div>
+                            <div class="col text-right">
+                                <span class="black-link-redirect"
+                                      routerLink="/file"
+                                      [queryParams]="{source: 'document', identifier: product.id + ',' + 2}">Alle afbeeldingen</span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="images.length; else nothingImgTpl" class="row">
+                            <div *ngFor="let file of images" class="padding">
+                                <div class="image-card" (click)="onOpenDocument(file, 'image')">
+                                    <app-file-preview [file]="file" [width]="120"></app-file-preview>
+                                    <div class="overlay"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mb-3 mt-4">
+                            <div class="col">
+                                <h4><b>Handleidingen</b></h4>
+                            </div>
+                            <div class="col text-right">
+                                <span class="black-link-redirect"
+                                      routerLink="/file"
+                                      [queryParams]="{source: 'document', identifier: product.id + ',' + 1}">Alle handleidingen</span>
+                            </div>
+                        </div>
+                        <div *ngIf="manuals.length; else nothingDocTpl">
+                            <div *ngFor="let file of manuals"
+                                 class="d-flex justify-content-between align-items-center custom-row py-0">
+                                <div class="clickable" (click)="onOpenDocument(file, 'document')"><i class="mdi mdi-file-document mr-1"></i><u>{{file.label || file.fileName}}</u></div>
+                                <div class="doc-download"><a [href]="file.fileUrl" download><i
+                                        class="mdi mdi-download"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mb-3 mt-4">
+                            <div class="col">
+                                <h4><b>Documenten</b></h4>
+                            </div>
+                            <div class="col text-right">
+                                <span class="black-link-redirect"
+                                      routerLink="/file"
+                                      [queryParams]="{source: 'document', identifier: product.id + ',' + 3}">Alle documenten</span>
+                            </div>
+                        </div>
+                        <div *ngIf="documents.length; else nothingDocTpl">
+                            <div *ngFor="let file of documents"
+                                 class="d-flex justify-content-between align-items-center custom-row py-0">
+                                <div class="clickable" (click)="onOpenDocument(file, 'document')"><i class="mdi mdi-file-document mr-1"></i><u>{{file.label || file.fileName}}</u></div>
+                                <div class="doc-download"><a [href]="file.fileUrl" download><i
+                                        class="mdi mdi-download"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="mb-4"><b>{{product.name}}</b></h4>
+
+                                <h5 class="mb-4"><b>Details</b></h5>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Type</strong>
+                                    <span>{{product.type}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>WLL (kg)</strong>
+                                    <span>{{product.weight}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Bouwnummer</strong
+                                    ><span>{{product.build_number}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Bouwjaar</strong>
+                                    <span>{{product.build_year}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Lengte in (m)</strong>
+                                    <span>{{product.length_in}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Lengte uit (m)</strong>
+                                    <span>{{product.length_out}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Uitgestrekte lengte (m)</strong>
+                                    <span>{{product.length_extended}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Max. vermogen (kw)</strong>
+                                    <span>{{product.power}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Max. oliedruk</strong>
+                                    <span>{{product.oil_pressure}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Kettingtype</strong>
+                                    <span>{{product.chain_type}}</span>
+                                </div>
+
+
+                                <h4 class="my-4"><b>Onderhoud</b></h4>
+                                <app-table-async
+                                        [columns]="columnsMaintenance"
+                                        [asyncRow]="asyncMaintenance"
+                                        [isLoading]="isLoadingMaintenance"
+                                        [showPagination]="false"></app-table-async>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #nothingImgTpl>
+    <div><small>Er is nog geen afbeelding toegevoegd</small></div>
+</ng-template>
+<ng-template #nothingDocTpl>
+    <div><small>Er is nog geen document toegevoegd</small></div>
+</ng-template>
+
+<ng-template #nameTemplate let-value="value" let-row="row">
+    <div *ngIf="value" class="d-flex align-items-center">
+        <div class="user-avatar-height">
+
+            <img class="user-avatar" [src]="value.profile_picture ? sourceUrl + value.profile_picture : 'assets/images/profile/empty.png'">
+        </div>
+        <div *ngIf="value">{{value.first_name}} {{value.last_name}}</div>
+    </div>
+</ng-template>
+
+<ng-template #dateTemplate let-value="value" let-row="row">
+    <span>{{value | date:'dd-MM-yyyy'}}</span>
+</ng-template>
+
+<ng-template #statusTemplate let-value="value">
+    <span class="badge text-white" [style.backgroundColor]="value.color">{{value.name}}</span>
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-column="column">
+    <a [routerLink]="[column.routerLink, value]" class="black-link-redirect">{{column.label}}</a>
+</ng-template>
+
+<ng-template #linkTpl let-value="value" let-row="row" let-column="column">
+    <a [routerLink]="[column.routerLink, value.id]" class="black-link-redirect">{{value.name}}</a>
+</ng-template>

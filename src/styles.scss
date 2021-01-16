@@ -1,0 +1,461 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import './assets/styles/variables';
+@import "~compass-mixins/lib/compass";
+@import "~compass-mixins/lib/animate";
+@import "~bootstrap/scss/bootstrap";
+@import "~mdi/scss/materialdesignicons";
+@import "~font-awesome/scss/font-awesome";
+//@import "~flag-icon-css/sass/flag-icon";
+@import "~simple-line-icons/scss/simple-line-icons.scss";
+
+@import "./assets/styles/loaders/loaders";
+
+@import "./assets/styles/fonts";
+@import "./assets/styles/mixins/text";
+@import "./assets/styles/functions";
+@import "./assets/styles/mixins/background";
+@import "./assets/styles/mixins/animation";
+@import "./assets/styles/mixins/badges";
+@import "./assets/styles/mixins/breadcrumbs";
+@import "./assets/styles/mixins/pagination";
+@import "./assets/styles/mixins/buttons";
+@import "./assets/styles/mixins/misc";
+@import "./assets/styles/mixins/color-functions";
+@import "./assets/styles/mixins/cards";
+@import "./assets/styles/mixins/tooltips";
+@import "./assets/styles/mixins/popovers";
+@import "./assets/styles/mixins/blockqoute";
+@import "./assets/styles/accordions";
+@import "./assets/styles/breadcrumbs";
+@import "./assets/styles/forms";
+@import "./assets/styles/icons";
+@import "./assets/styles/tables";
+@import "./assets/styles/buttons";
+@import "./assets/styles/badges";
+@import "./assets/styles/cards";
+@import "./assets/styles/checkbox-radio";
+@import "./assets/styles/typography";
+@import "./assets/styles/preview";
+@import "./assets/styles/lists";
+@import "./assets/styles/bootstrap-progress";
+@import "./assets/styles/bootstrap-alerts";
+@import "./assets/styles/tabs";
+@import "./assets/styles/dropdowns";
+@import "./assets/styles/pagination";
+@import "./assets/styles/popovers";
+@import "./assets/styles/modals";
+@import "./assets/styles/nav";
+@import "./assets/styles/reset";
+@import "./assets/styles/rating";
+@import "./assets/styles/layouts";
+@import "./assets/styles/tooltips";
+@import "./assets/styles/responsive";
+@import "./assets/styles/misc";
+@import "./assets/styles/utilities";
+@import "./assets/styles/todo-list";
+@import "./assets/styles/navbar";
+@import "./assets/styles/auth";
+@import "./assets/styles/demo";
+@import "./assets/styles/widgets";
+@import "./assets/styles/email";
+@import "./assets/styles/ng-select-boostrap.scss";
+
+a {
+  color: theme-color('primary');
+}
+
+.color-theme-primary {
+  color: theme-color('primary');
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.table-actions {
+  display: flex;
+
+  i {
+    margin: 0 5px;
+  }
+
+  .icon-delete {
+    color: $danger;
+  }
+
+  .icon-edit {
+    color: $primary;
+  }
+
+  .icon-activate {
+    color: $success;
+  }
+}
+
+.modal-content {
+  background-color: #fff;
+}
+
+.form-control:focus {
+  border-color: theme-color(primary);
+}
+
+.page-link {
+  color: theme-color(primary);
+}
+
+.nav-tabs {
+  .nav-item {
+    .nav-link {
+      border-radius: 0;
+    }
+  }
+
+  .nav-link {
+    &.active {
+      color: white !important;
+    }
+  }
+}
+
+.btn-misti {
+  color: white;
+  background-color: theme-color(primary);
+
+  &:hover {
+    color: theme-color(primary);
+    background-color: white;
+    border-color: theme-color(primary);
+  }
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.table td img {
+  border-radius: 0;
+  height: 25px;
+  width: auto;
+}
+
+.filter-ct {
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  color: #404852;
+  margin-bottom: 22px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.modal-body {
+  .highlighted {
+    color: theme-color(primary);
+  }
+}
+
+.product-dialog, .maintenance-dialog {
+  .modal-dialog {
+    @media (min-width: 576px) {
+      max-width: 800px;
+    }
+  }
+}
+
+.img-70 {
+  width: 70%;
+}
+
+.vertical-line {
+  height: 100%;
+  width: 1px;
+  background-color: #f2f2f2;
+  margin: auto;
+}
+
+.custom-link {
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  color: theme-color('primary')!important;
+}
+
+.form-check {
+  &.custom-check {
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+    .input-helper {
+      &:before {
+        width: 22px;
+        height: 22px;
+      }
+
+      &:after {
+        color: #fff;
+        left: 2px;
+        top: 12%;
+      }
+    }
+
+    input {
+      &:checked {
+        + .input-helper {
+          &:before {
+            background-color: theme-color(primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+.deleted-row {
+  background-color: #ffb0ab !important;
+}
+
+.custom-breadcrumb {
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+  a {
+    color: black;
+  }
+
+  .next-section {
+    margin: 0 10px;
+  }
+
+  &:last-of-type {
+    text-decoration: none;
+    cursor: default;
+
+    .next-section {
+      display: none;
+    }
+  }
+}
+
+//detail-page
+$bg-gray: #efefef;
+$primary-color: #e64a25;
+.image-card {
+  width: 120px;
+  height: 120px;
+  background-color: $bg-gray;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.padding {
+  padding: 5px 10px;
+}
+
+.overlay {
+  position: absolute;
+  background-color: $bg-gray;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.remove-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.remove {
+  cursor: pointer;
+  font-size: 20px;
+  transition: color 0.3s ease-in-out;
+
+  i {
+    transform: rotate(45deg);
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.doc-download {
+  font-size: 30px;
+  color: $primary-color;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.custom-row {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+
+  &:nth-of-type(odd) {
+    background-color: #fbfbfb;
+  }
+}
+
+.height {
+  height: 30px;
+}
+
+.textarea-notes {
+  width: 100%;
+  background-color: $bg-gray;
+  padding: 10px 15px;
+  border: 2px solid darkgrey;
+  resize: vertical;
+  font-size: 0.875rem;
+}
+
+.note-text {
+  border: 2px solid darkgrey;
+  padding: 10px 15px;
+  font-size: 0.875rem;
+}
+
+.note-author {
+  font-size: 0.7rem;
+}
+
+.badge {
+  line-height: unset;
+}
+
+.disabled-link {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.large-avatar {
+  height: 50px;
+
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.detail-table {
+  &__row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+
+    &:nth-of-type(odd) {
+      background-color: #fbfbfb;
+    }
+
+    div {
+      flex: 1;
+    }
+  }
+}
+
+.user-avatar-height {
+  height: 30px;
+
+  .user-avatar {
+    border: 1px solid darkgray;
+    color: white;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
+}
+
+.black-link-redirect {
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.separator {
+  display: inline-block;
+  height: 100%;
+  width: 1px;
+  background: #ced3d7;
+}
+
+.overlay {
+  position: absolute;
+  background-color: $bg-gray;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.custom-row {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+
+  &:nth-of-type(odd) {
+    background-color: #fbfbfb;
+  }
+}
+
+.document-viewer {
+  .modal-dialog {
+    margin-top: 20px;
+    height: 80vh;
+    @media (min-width: 576px) {
+      max-width: 1000px;
+    }
+
+    .modal-content {
+      background-color: transparent;
+      border: none;
+    }
+  }
+}
+
+.doc-download {
+  font-size: 30px;
+  color: #e64a25;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.table {
+  overflow: hidden;
+}
+
+file-upload {
+  &.has-files {
+    .upload-text {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<div>
+    <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 4"
+            [imageFile]="profileImage"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+    ></image-cropper>
+</div>
+<div class="custom-modal-footer">
+    <button class="btn" (click)="activeModal.close('Close click')">Cancel</button>
+    <button class="btn btn-primary" (click)="onSave()">Save</button>
+</div>

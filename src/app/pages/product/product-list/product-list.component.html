@@ -1,0 +1,43 @@
+<div class="filter-ct">
+    <app-filter [fields]="filterFields" (filter)="onFilter($event)"
+                [cssOffsetClassesBtn]="['offset-sm-9','text-sm-right']"></app-filter>
+</div>
+<div>
+    <app-table-async
+            [columns]="columns"
+            [asyncRow]="asyncProducts"
+            [meta]="meta"
+            [isLoading]="isLoading"
+            (onPage)="pageChanged($event)"></app-table-async>
+
+    <div class="text-right mt-4">
+        <button class="btn btn-misti" (click)="onCreateProduct()">Nieuw product toevoegen</button>
+    </div>
+</div>
+
+<ng-template #skeletonTable>
+    <skeleton-table></skeleton-table>
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-row="row">
+    <div class="table-actions">
+        <i class="mdi mdi mdi-pencil clickable icon-edit" (click)="onUpdateProduct(row)"></i>
+        <i class="mdi mdi mdi-delete clickable icon-delete" (click)="onDeleteProduct(row)"></i>
+        <i class="mdi mdi mdi-magnify clickable icon-delete" [routerLink]="['/administrator/products', row.id]" title="Bekijken"></i>
+    </div>
+</ng-template>
+
+<ng-template #categoryTpl let-value="value">
+    {{value === '1' ? 'Kraan' : 'Spudpaal'}}
+</ng-template>
+
+<ng-template #modalBodyTpl let-row="row">
+    <span>Are you sure you want to delete <span class="highlighted">{{row.name}}</span>?
+    All media related will be disconnected and the product will no longer show on the related ship page.
+    </span>
+    <br>
+    <br>
+    <span>Please type <b>DELETE</b> in the field below to confirm deleting the specified product.</span>
+</ng-template>
+
+

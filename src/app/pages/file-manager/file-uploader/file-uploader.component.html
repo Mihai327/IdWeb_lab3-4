@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-sm-12 d-flex">
+        <div class="custom-breadcrumb">
+            <a routerLink="/file">Bedrijven<i class="mdi mdi-chevron-right next-section"></i></a>
+        </div>
+        <div class="custom-breadcrumb">
+            <a>Bestanden toewijzen<i class="mdi mdi-chevron-right next-section"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="pl-4 pr-4 pt-4 pb-3">
+                    <a routerLink="/file">Terug naar bestanden</a>
+                    <h3><b>Bestanden toewijzen</b></h3>
+                </div>
+
+                <div class="row upload-section">
+                    <input id="files" style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+                    <div class="col-sm-8 image-container pl-4 pr-4 pt-3 pb-3">
+                        <div *ngFor="let file of files; index as i" class="file-item">
+                            <img *ngIf="file.type === 'image'" [src]="file.imageUrl" height="120">
+                            <div *ngIf="file.type === 'document'" class="document-item">
+                                <i class="mdi mdi-file"></i>
+                            </div>
+
+                            <div class="file-label" [style.font-size.px]="12">{{file.file.name}}</div>
+
+                            <div class="delete-icon" (click)="onDeleteFile(i)">
+                                <i class="mdi mdi-close"></i>
+                            </div>
+                        </div>
+
+                        <div class="add-new-item" (click)="fileInput.click()">
+                            <i class="mdi mdi-plus"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 form-container pl-3 pr-3 pt-3 pb-3">
+                        <div>
+                            <div class="col-sm-12">
+                                <p>{{files.length}} bestanden toewijzen</p>
+                            </div>
+
+                            <form>
+                                <div class="col-sm-12">
+                                    <shared-form-select label="Bedrijf" placeholder="Selecteer een bedrijf"
+                                                        controlName="company_id"
+                                                        [options]="companyOptions" [group]="form"
+                                                        (change)="onChangeCompany($event)"></shared-form-select>
+                                </div>
+                                <div class="col-sm-12">
+                                    <shared-form-select label="Schip" placeholder="Selecteer een schip"
+                                                        controlName="ship_id"
+                                                        [options]="shipOptions" [group]="form"
+                                                        (change)="onChangeShip($event)"></shared-form-select>
+                                </div>
+                                <div class="col-sm-12">
+                                    <shared-form-select label="Product" placeholder="Selecteer een product"
+                                                        controlName="product_id"
+                                                        [options]="productOptions" [group]="form"></shared-form-select>
+                                </div>
+                                <div class="col-sm-12">
+                                    <shared-form-select label="Soort" placeholder="Selecteer een soort"
+                                                        controlName="document_type_id"
+                                                        [options]="documentTypeOptions"
+                                                        [group]="form"></shared-form-select>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary save-btn" (click)="onSubmit()">
+                                    Bestanden toewijzen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

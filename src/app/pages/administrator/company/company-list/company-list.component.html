@@ -1,0 +1,59 @@
+<div class="row filter-ct">
+    <div class="col-sm-3">
+        <app-company (selectCompany)="onSelectCompany($event)"></app-company>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-sm-9 col-sm-3">
+        <div class="form-check custom-check float-right">
+            <label class="form-check-label">
+                <input class="checkbox" type="checkbox" (change)="onShowDeactivatedEntries($event)">
+                <i class="input-helper"></i>
+                Toon gedeactiveerde items
+            </label>
+        </div>
+    </div>
+</div>
+<div>
+    <app-table-async
+            [columns]="columns"
+            [asyncRow]="asyncCompanies"
+            [meta]="meta"
+            [isLoading]="isLoading"
+            (onPage)="pageChanged($event)"
+            rowClass="deleted-row"
+            whenApplyRowClass="deleted_at"></app-table-async>
+
+    <div class="text-right mt-4">
+        <button class="btn btn-misti" (click)="onCreateCompany()">Nieuw bedrijf toevoegen</button>
+    </div>
+</div>
+
+<ng-template #skeletonTable>
+    <skeleton-table></skeleton-table>
+</ng-template>
+
+<ng-template #companyLogoTemplate let-value="value">
+    <img [src]="sourceUrl + value" alt="" height="30" alt="Company logo">
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-row="row">
+    <div class="table-actions">
+        <i class="mdi mdi mdi-pencil clickable icon-edit" (click)="onUpdateCompany(row)"></i>
+        <i *ngIf="row.deleted_at else delete" class="mdi mdi mdi-check clickable icon-activate" (click)="onActivateCompany(row)" title="Activeer bedrijf"></i>
+        <ng-template #delete><i class="mdi mdi mdi-delete clickable icon-delete" (click)="onDeleteCompany(row)"></i></ng-template>
+    </div>
+</ng-template>
+
+<ng-template #modalBodyTpl let-row="row">
+    <span>Weet u zeker dat u het bedrijf <span class="highlighted">{{row.name}}</span> wilt deactiveren?
+    Alle <span class="highlighted">{{row.name}}</span>-gebruikers zullen niet meer kunnen inloggen.
+    Na deactivering is het weer mogelijk om het bedrijf te activeren zonder verlies van bedrijfsgegevens.</span>
+    <br>
+    <br>
+    <span>Typ <b>DEACTIVEER</b> in het onderstaande veld om door te gaan met het deactiveren van het bedrijf.</span>
+</ng-template>
+
+<ng-template #activateBodyTpl let-row="row">
+    <span>Weet je zeker dat je bedrijf <span class="highlighted">{{row.name}}</span>wilt activeren?</span>
+</ng-template>

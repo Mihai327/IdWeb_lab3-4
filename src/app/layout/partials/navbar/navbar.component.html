@@ -1,0 +1,102 @@
+<nav class="navbar col-lg-12 col-12 p-0">
+    <div class="container d-flex flex-row nav-top">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top">
+            <a class="navbar-brand brand-logo" routerLink="/dashboard">
+                <img src="assets/images/misti-logo-header.svg" alt="logo"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" routerLink="/dashboard">
+                <img src="assets/images/logo-mini.svg" alt="logo"/>
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <ul class="navbar-nav ml-auto">
+                <li *ngIf="displayContactPersonButton" class="nav-item">
+                    <button type="button" class="btn btn-outline-primary" (click)="onOpenContact()">Contact opnemen</button>
+                </li>
+                <li *ngIf="displayContactPersonButton" class="nav-item not-mobile-item"><div class="separator"></div></li>
+                <li class="nav-item dropdown d-xl-inline-block mr-0 not-mobile-item" ngbDropdown>
+                    <a class="nav-link dropdown-toggle nav-profile-toggle" id="UserDropdown" ngbDropdownToggle>
+                        <div class="profile-detail">
+                            <span class="mb-1 font-weight-semibold">{{profile?.first_name}} {{profile?.last_name}}</span>
+                            <small class="font-weight-light text-muted mb-0">{{profileSubTitle}}</small>
+                        </div>
+                        <img class="img-xs rounded-circle ml-3" [src]="profileImage" alt="Profile image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" ngbDropdownMenu
+                         aria-labelledby="UserDropdown">
+                        <div class="dropdown-header text-center">
+                            <img class="img-md rounded-circle" [src]="profileImage" alt="Profile image">
+                            <br/>
+                            <p class="mb-1 mt-3 font-weight-semibold">{{profile?.first_name}} {{profile?.last_name}}</p>
+                            <p class="font-weight-light text-muted mb-0"><small>{{profile?.company.name}}</small></p>
+                        </div>
+                        <a class="dropdown-item justify-content-center" routerLink="/profile">Accountinformatie</a>
+                        <a class="dropdown-item justify-content-center" (click)="authService.logout()">Uitloggen</a>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler align-self-center" type="button" (click)="toggleOffcanvas()">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </div>
+    <div class="nav-bottom">
+        <div class="container">
+            <ul class="nav page-navigation">
+                <li class="nav-item">
+                    <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                        <i class="link-icon mdi mdi-view-dashboard"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li *ngIf="isAdmin" class="nav-item">
+                    <a routerLink="/administrator" routerLinkActive="active" class="nav-link">
+                        <i class="link-icon mdi mdi-account-key"></i>
+                        <span class="menu-title">Administrator</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/maintenance" routerLinkActive="active" class="nav-link">
+                        <i class="link-icon mdi mdi-settings"></i>
+                        <span class="menu-title">Onderhoud</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/file" routerLinkActive="active" class="nav-link">
+                        <i class="link-icon mdi mdi-folder"></i>
+                        <span class="menu-title">Bestanden</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="mobile-item-header justify-content-end align-items-center">
+        <div class="dropdown d-xl-inline-block mr-0" ngbDropdown>
+            <a class="nav-link dropdown-toggle nav-profile-toggle d-flex align-items-center" id="UserDropdown" ngbDropdownToggle>
+                <div class="profile-detail">
+                    <span class="font-weight-semibold">{{profile?.first_name}} {{profile?.last_name}}</span>
+                    <small class="font-weight-light text-muted mb-0">{{profileSubTitle}}</small>
+                </div>
+                <img class="img-xs rounded-circle ml-3" [src]="profileImage" alt="Profile image">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" ngbDropdownMenu
+                 aria-labelledby="UserDropdown">
+                <div class="dropdown-header text-center">
+                    <img class="img-md rounded-circle" [src]="profileImage" alt="Profile image">
+                    <br/>
+                    <p class="mb-1 mt-3 font-weight-semibold">{{profile?.first_name}} {{profile?.last_name}}</p>
+                    <p class="font-weight-light text-muted mb-0"><small>{{profile?.company.name}}</small></p>
+                </div>
+                <a class="dropdown-item justify-content-center" routerLink="/profile">Accountinformatie</a>
+                <a class="dropdown-item justify-content-center" (click)="authService.logout()">Uitloggen</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<ng-template #modalBodyTpl let-obj="object" let-template="contactTpl">
+    <span>U heeft aangegeven contact te willen opnemen met uw contactpersoon <span class="highlighted">{{contactPerson.first_name}} {{contactPerson.last_name}}</span>.</span>
+    <p class="mt-3 mb-2"><b>Bel uw contactpersoon</b></p>
+    <ng-container [ngTemplateOutlet]="template"></ng-container>
+    <p class="mt-3 mb-2"><b>Mail uw contactpersoon</b></p>
+    <span>Uw contactpersoon zal binnen 24 uur contact met u opnemen en u verder helpen. Hou de inbox van uw email in de gaten voor een reactie.</span>
+</ng-template>

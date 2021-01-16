@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">Accountinformatie bewerken</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-12">
+                <shared-form-input label="Voornaam" placeholder="Voornaam" controlName="first_name"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Achternaam" placeholder="Achternaam" controlName="last_name"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="E-mailadres" placeholder="E-mailadres" controlName="email"
+                                   [group]="form"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Telefoonnummer" placeholder="Telefoonnummer" controlName="phone"
+                                   [group]="form"></shared-form-input>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Anuleeren</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Wijzigingen opslaan</button>
+</div>

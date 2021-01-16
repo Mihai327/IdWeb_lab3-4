@@ -1,0 +1,13 @@
+<div class="form-group bootstrap-theme">
+    <ng-select [items]="company$ | async"
+               bindLabel="name"
+               placeholder="Bedrijven"
+               [trackByFn]="trackByFn"
+               [minTermLength]="3"
+               [loading]="companiesLoading"
+               (change)="onSelectCompany()"
+               typeToSearchText="Voer 2 of meer karakters in"
+               [typeahead]="companyInput$"
+               [(ngModel)]="selectedCompany">
+    </ng-select>
+</div>

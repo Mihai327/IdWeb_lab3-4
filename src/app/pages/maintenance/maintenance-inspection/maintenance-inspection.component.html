@@ -1,0 +1,275 @@
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a routerLink="/maintenance/list" class="custom-link">
+                        Terug naar onderhoudsoverzicht
+                    </a>
+                    <a [hidden]="isKlantUser"
+                       class="pointer-event custom-link"
+                       placement="bottom"
+                       [ngbTooltip]="!isBeforeTheDate ? 'U kunt dit plan niet meer bewerken omdat het reeds is uitgevoerd.' : null"
+                       [ngClass]="{'disabled-link': !isBeforeTheDate}"
+                       (click)="onUpdateMaintenance(maintenance)"
+                    >
+                        <i *ngIf="isBeforeTheDate else alertTpl" class="mdi mdi-information"></i>
+                        <ng-template #alertTpl><i class="mdi mdi-alert-circle"></i></ng-template>
+                        Onderhoudsplan bewerken
+                    </a>
+                </div>
+                <div class="mb-4 mt-2">
+                    <h3><b>{{title}}</b></h3>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                <h4><b>Afbeeldingen</b></h4>
+                            </div>
+                            <div [hidden]="showImageForm || isKlantUser" class="col text-right">
+                                <a class="custom-link clickable" (click)="showImageForm = true">Bewerken</a>
+                            </div>
+                            <div [hidden]="!showImageForm" class="col text-right">
+                                <a class="custom-link clickable" (click)="onCancelImagesAction()">Annuleren</a>
+                                |
+                                <a class="custom-link clickable" (click)="onDeleteFiles('images')">Klaar</a>
+                            </div>
+                        </div>
+                        <div *ngIf="imageUploadControl.value.length > 0 else nothingImgTpl" class="row">
+                            <div *ngFor="let file of imageUploadControl.value" class="padding">
+                                <div *ngIf="!file.deleted" class="image-card">
+                                    <div *ngIf="showImageForm" class="remove remove-image" (click)="onDeleteFile(file)">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <app-file-preview *ngIf="file.name" [file]="file" [width]="120"></app-file-preview>
+                                    <div class="overlay pointer" (click)="onOpenDocument(file, 'image')"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div [hidden]="!showImageForm" class="row">
+                            <div class="col">
+                                <file-upload [control]="imageUploadControl" class="file-upload"
+                                             (drop)="onAddImage(imageUploadControl.value)"
+                                             (change)="onAddImage(imageUploadControl.value)">
+                                    <ng-template #placeholder>
+                                        <div class="text-center"><u>Afbeeldingen toevoegen</u></div>
+                                        <div class="text-center"><small>Of sleep de bestanden in dit venster (alleen
+                                            .jpg, .png, .svg)</small></div>
+                                    </ng-template>
+                                </file-upload>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mt-3">
+                            <div class="col">
+                                <h4><b>Documenten</b></h4>
+                            </div>
+                            <div [hidden]="showDocumentForm || isKlantUser" class="col text-right">
+                                <a class="custom-link clickable" (click)="showDocumentForm = true">Bewerken</a>
+                            </div>
+                            <div [hidden]="!showDocumentForm" class="col text-right">
+                                <a class="custom-link clickable" (click)="onCancelDocumentsAction()">Annuleren</a>
+                                |
+                                <a class="custom-link clickable"
+                                   (click)="onDeleteFiles('documents')">Klaar</a>
+                            </div>
+                        </div>
+                        <div [hidden]="!showDocumentForm" class="row">
+                            <div class="col">
+                                <file-upload [control]="documentUploadControl" class="file-upload"
+                                             (drop)="onAddDocument(documentUploadControl.value)"
+                                             (change)="onAddDocument(documentUploadControl.value)">
+                                    <ng-template #placeholder>
+                                        <div class="text-center"><u>Documenten toevoegen</u></div>
+                                        <div class="text-center">
+                                            <small>Of sleep de bestanden in dit venster (alleen .pdf, .txt,
+                                                .doc)</small>
+                                        </div>
+                                    </ng-template>
+                                </file-upload>
+                            </div>
+                        </div>
+                        <div *ngIf="documentUploadControl.value.length > 0 else nothingDocTpl">
+                            <div *ngFor="let file of documentUploadControl.value">
+                                <div *ngIf="!file.deleted"
+                                     class="d-flex justify-content-between align-items-center custom-row"
+                                     [ngClass]="{'py-0': !showDocumentForm}">
+                                    <div (click)="onOpenDocument(file, 'document')" class="clickable"><i
+                                            class="mdi mdi-file-document mr-1"></i><u>{{file.label}}</u></div>
+                                    <div [hidden]="showDocumentForm" class="doc-download"><a class="clickable"
+                                                                                             (click)="onSaveFile(file)"><i
+                                            class="mdi mdi-download"></i></a></div>
+                                    <div [hidden]="!showDocumentForm" class="remove" (click)="onDeleteFile(file)"><span><i
+                                            class="mdi mdi-plus"></i></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="mb-4"><b>Details</b></h4>
+
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Datum</strong>
+                                    <span>{{maintenance.date | date:'dd-MM-yyyy'}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Product</strong>
+                                    <span>{{maintenance.product.name}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Schip</strong
+                                    ><span>{{maintenance.product.ship.name}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Categorie</strong
+                                    ><span>{{maintenance.category.name}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Soort werkzaamheden</strong
+                                    ><span>{{maintenance.work_type.name}}</span>
+                                </div>
+                                <div *ngIf="maintenance.inspector" class="d-flex justify-content-between custom-row">
+                                    <div>
+                                        <strong>Uitvoerend persoon</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar-height">
+                                            <!-- <span class="user-avatar"> *ngIf="!user.image && user.name" -->
+                                            <!-- {{ getFirstLetters(user.name) }} -->
+                                            <!-- </span> -->
+
+                                            <img class="user-avatar"
+                                                 src="../../../../assets/images/ship/cargo_ship_2x.png">
+                                            <!--*ngIf="user.image && user.name"-->
+
+                                            <!-- <span class="user-avatar bg-gray"></span> *ngIf="!user.image" -->
+
+                                        </div>
+                                        <div>{{maintenance.inspector.first_name}} {{maintenance.inspector.last_name}}</div>
+                                    </div>
+                                </div>
+                                <div *ngIf="maintenance.contact_person"
+                                     class="d-flex justify-content-between custom-row">
+                                    <div>
+                                        <strong>Contactpersoon</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar-height">
+                                            <!-- <span class="user-avatar"> *ngIf="!user.image && user.name" -->
+                                            <!-- {{ getFirstLetters(user.name) }} -->
+                                            <!-- </span> -->
+
+                                            <img class="user-avatar"
+                                                 src="../../../../assets/images/ship/cargo_ship_2x.png">
+                                            <!--*ngIf="user.image && user.name"-->
+
+                                            <!-- <span class="user-avatar bg-gray"></span> *ngIf="!user.image" -->
+
+                                        </div>
+                                        <div placement="bottom" [ngbPopover]="popContent"><a href="javascript:void(0)"
+                                                                                             style="color: black;"><u>{{maintenance.contact_person.first_name}} {{maintenance.contact_person.last_name}}</u></a>
+                                        </div>
+                                        <ng-template #popContent>
+                                            <div class="d-flex align-items-center">
+                                                <div class="large-avatar">
+                                                    <!-- <span class="user-avatar"> *ngIf="!user.image && user.name" -->
+                                                    <!-- {{ getFirstLetters(user.name) }} -->
+                                                    <!-- </span> -->
+
+                                                    <img class="user-avatar"
+                                                         src="../../../../assets/images/ship/cargo_ship_2x.png">
+                                                    <!--*ngIf="user.image && user.name"-->
+
+                                                    <!-- <span class="user-avatar bg-gray"></span> *ngIf="!user.image" -->
+
+                                                </div>
+                                                <div>
+                                                    <div class="d-flex align-items-center"><i
+                                                            class="mdi mdi-email mr-2"></i><a
+                                                            href="mailto:{{maintenance.contact_person.email}}"><u>{{maintenance.contact_person.email}}</u></a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center"><i
+                                                            class="mdi mdi-phone mr-2"></i><a
+                                                            href="tel:{{maintenance.contact_person.phone}}"><u>{{maintenance.contact_person.phone}}</u></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Status</strong>
+                                    <app-maintenance-status [maintenance]="maintenance" [statusList]="statusList"
+                                                            (changeStatus)="onChangeStatus($event)"
+                                                            (saveNewStatus)="loadMaintenanceForm()"></app-maintenance-status>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="my-4"><b>Notities</b></h4>
+                                <div [hidden]="!showNotesForm">
+                                    <textarea class="textarea-notes" placeholder="Laat hier uw bericht achter"
+                                              [(ngModel)]="noteControl"></textarea>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-outline-primary"
+                                                (click)="showNotesForm = false">Afbreken
+                                        </button>
+                                        <button class="btn btn-misti ml-3" (click)="onAddNote()">Versturen</button>
+                                    </div>
+                                </div>
+                                <div *ngFor="let comment of maintenance?.comments" class="note-card mt-3">
+                                    <div class="note-text">
+                                        {{ comment.content }}
+                                    </div>
+                                    <div class="note-author mt-1">
+                                        <b>{{ comment.user.first_name }} {{ comment.user.last_name }}</b> - {{ comment.created_at | date:'dd-MM-yyyy' }}
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button [hidden]="showNotesForm" class="btn btn-misti"
+                                            (click)="showNotesForm = true">Bericht achterlaten
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteDocumentTpl let-row="row">
+    Week u zeker dat u <span class="highlighted">{{row.label}}</span> wilt verwijderen?
+    Het document zal ook worden verwijderd uit de mediabibliotheek en zal niet langer te zien zijn op
+    <span class="highlighted">{{row.title}}</span>.
+</ng-template>
+
+<ng-template #deleteAllDocumentTpl let-row="row">
+    Week u zeker dat u deze <span class="highlighted">{{row.length}} documenten</span> wilt verwijderen?
+    De documenten zullen ook worden verwijderd uit de mediabibliotheek en zullen niet langer te zien zijn op
+    <span class="highlighted">{{row.title}}</span>.
+</ng-template>
+
+<ng-template #deleteImageTpl let-row="row">
+    Week u zeker dat u <span class="highlighted">{{row.label}}</span> wilt verwijderen?
+    De afbeelding zal ook worden verwijderd uit de mediabibliotheek en zal niet langer te zien zijn op
+    <span class="highlighted">{{row.title}}</span>.
+</ng-template>
+
+<ng-template #deleteAllImageTpl let-row="row">
+    Week u zeker dat u deze <span class="highlighted">{{row.length}} afbeeldingen</span> wilt verwijderen?
+    De afbeeldingen zullen ook worden verwijderd uit de mediabibliotheek en zullen niet langer te zien zijn op
+    <span class="highlighted">{{row.title}}</span>.
+</ng-template>
+
+<ng-template #nothingImgTpl>
+    <div><small>Er is nog geen afbeelding toegevoegd.</small></div>
+</ng-template>
+<ng-template #nothingDocTpl>
+    <div><small>Er is nog geen document toegevoegd</small></div>
+</ng-template>

@@ -1,0 +1,38 @@
+
+<div ngbDropdown class="d-inline-block" [autoClose]="'outside'">
+    <span class="badge text-white" [style.cursor]="isAdmin ? 'pointer' : 'auto'" [style.backgroundColor]="maintenance.status.color" id="statusBtn" ngbDropdownToggle>{{maintenance.status.name}}</span>
+    <div *ngIf="isAdmin" ngbDropdownMenu aria-labelledby="statusBtn" [style.width.px]="250">
+        <ng-container [ngTemplateOutlet]="showEditStatusTpl ? editStatusTpl : selectStatusTpl"></ng-container>
+    </div>
+</div>
+                               
+<ng-template #selectStatusTpl>
+    <ng-container *ngFor="let item of statusList">
+        <div *ngIf="item.name" class="status-item text-center">
+            <a class="dropdown-item text-white" href="javascript:void(0)" [style.backgroundColor]="item.color" (click)="onChangeStatus(item)">{{item.name}}</a>
+        </div>
+    </ng-container>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center" href="javascript:void(0)" (click)="showEditStatusTpl = true"><i class="mdi mdi-pencil"></i> Labels bewerken/toevoegen</a>
+</ng-template>
+
+<ng-template #editStatusTpl>
+    <div class="status-items-edit">
+        <div *ngFor="let item of statusList" class="status-item-edit">
+            <div class="d-flex">
+                <div class="change-color" [style.backgroundColor]="item.color" (click)="onEditStatusColor(item)">
+                    <i *ngIf="item.active" class="mdi mdi-format-color-fill icon-color"></i>
+                </div>
+                <input type="text" #status [value]="item.name" placeholder="Label toevoegen" (change)="onChangeValue(item, status.value)">
+            </div>
+        </div>
+        <div *ngIf="showNewStatusBtn" class="d-inline-block status-item-edit">
+            <div class="new-status d-flex align-items-center justify-content-center" (click)="onAddNewStatus()">Nieuw label</div>
+        </div>
+    </div>
+    <div *ngIf="showColors" class="colors">
+        <div *ngFor="let color of colors" [style.backgroundColor]="color" class="color-option" (click)="onChangeColor(color)"></div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center" href="javascript:void(0)" (click)="onSaveStatus()">Opslaan</a>
+</ng-template>

@@ -1,0 +1,59 @@
+p {
+  margin: 0
+}
+
+a {
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+.empty-box {
+  text-align: center;
+  margin-top: 20px;
+
+  img {
+    margin-bottom: 20px;
+  }
+}
+
+.empty-ship-box {
+  margin: 0;
+
+  .ship-thumbnail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // .ship-content {
+  //   height: 150px;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+}
+
+.contact-link {
+  a {
+    color: #888888;
+  }
+}
+
+:host ::ng-deep {
+  .maintenance {
+    .table td, .table th {
+      padding: 10px 15px;
+    }
+  }
+
+  .ship-content {
+    .table tr {
+        td, th {
+          &:nth-last-child(1) {
+            text-align: right;
+          }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+<div [hidden]="isLoading" class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th *ngFor="let column of columns; let i = index">
+                <div *ngIf="column.Sortable; else col" class="btn-sort">
+                    <div>{{column.Name}}</div>
+                    <div *ngIf="column['Dir']">
+                        <i [ngClass]="['fa', column['Dir'] === 1 ? 'fa-arrow-down' : 'fa-arrow-up']"
+                           aria-hidden="true"></i>
+                    </div>
+                </div>
+                <ng-template #col>{{column.Name}}</ng-template>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of asyncRow | async | paginate: config" [class]="row[whenApplyRowClass] ? rowClass : ''">
+            <td *ngFor="let column of columns">
+                <div *ngIf="!column.cellTemplate;else cellTemplate">{{getValue(row, column.Prop)}}</div>
+                <ng-template
+                    #cellTemplate
+                    [ngTemplateOutlet]="column.cellTemplate"
+                    [ngTemplateOutletContext]="{ row: row, value: getValue(row, column.Prop), column: column }">
+                </ng-template>
+            </td>
+        </tr>
+        <tr *ngIf="!meta">
+            <td [attr.colspan]="columns.length">No data</td>
+        </tr>
+        </tbody>
+    </table>
+    <div *ngIf="showPagination" class="table-pagination">
+        <pagination-template #p="paginationApi"
+                             [id]="config.id"
+                             (pageChange)="pageChange($event)">
+            <div class="custom-pagination">
+                <ul class="pagination">
+                    <li class="page-item" [class.disabled]="p.isFirstPage()">
+                        <a class="page-link clickable" aria-label="Previous" (click)="p.previous()"><span
+                                aria-hidden="true">«</span></a>
+                    </li>
+                    <li *ngFor="let page of p.pages" class="page-item" [class.active]="p.getCurrent() === page.value">
+                        <a *ngIf="p.getCurrent() !== page.value" class="page-link clickable"
+                           (click)="p.setCurrent(page.value)"> {{page.label}} </a>
+                        <a *ngIf="p.getCurrent() == page.value" class="page-link">{{page.label}}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="p.isLastPage()">
+                        <a class="page-link clickable" aria-label="Next" (click)="p.next()"><span
+                                aria-hidden="true">»</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </pagination-template>
+        Totaal: {{total}}
+    </div>
+</div>
+<div [hidden]="!isLoading">
+    <skeleton-table></skeleton-table>
+</div>
+

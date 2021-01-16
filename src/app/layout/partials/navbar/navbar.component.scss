@@ -1,0 +1,27 @@
+.separator {
+  height: 80%;
+}
+
+.not-mobile-item {
+  @media (max-width: 576px) {
+    display: none !important;
+  }
+}
+
+.mobile-item-header {
+  display: none;
+  padding: 0 15px;
+  width: 100%;
+  @media (max-width: 576px) {
+    display: flex !important;
+  }
+}
+
+
+.profile-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 12px;
+}

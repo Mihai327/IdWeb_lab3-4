@@ -1,0 +1,31 @@
+.document-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    .close,  {
+        color: #fff;
+    }
+    .doc-download {
+        a {
+            color: #fff;
+        }
+    }
+}
+
+.modal-body {
+    img {
+        max-height: 550px;
+    }
+
+    iframe {
+        background-color: #fff;
+    }
+}
+
+.viewer-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}

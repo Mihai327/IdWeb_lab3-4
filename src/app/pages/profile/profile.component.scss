@@ -1,0 +1,8 @@
+.profile-row {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+
+  &:nth-of-type(odd) {
+    background-color: #fbfbfb;
+  }
+}

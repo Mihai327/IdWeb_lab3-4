@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-sm-12 d-flex">
+        <div *ngFor="let level of levels; index as i" class="custom-breadcrumb">
+            <a (click)="onBreadcrumb(i)">{{level.name}}<i class="mdi mdi-chevron-right next-section"></i></a>
+        </div>
+    </div>
+</div>
+<div *ngIf="!selectedFile" class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body position-relative pt-0">
+                <div class="d-flex justify-content-between align-items-center" [style.height.px]="70">
+                    <a class="file-back-action" (click)="onBack()">Vorige pagina</a>
+                    <div class="d-flex align-items-center">
+                        <a *ngIf="isAdmin" routerLink="/file/add" class="btn btn-primary btn-add-file">Bestanden toevoegen</a>
+                        <div *ngIf="levels.length > 4" class="document-filters">
+                            <div *ngFor="let documentType of documentTypeSources" class="document-category"
+                                 [ngClass]="{active: documentType.source_id === levels[levels.length - 1].source_id}"
+                                 (click)="onSelectDocumentType(documentType)">
+                                {{documentType.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>
+                    <b>
+                        <span *ngIf="levels.length > 4">{{levels[levels.length - 2].name}} - </span>
+                        {{levels[levels.length - 1].name}}
+                    </b>
+                </h3>
+
+                <div>
+                    <app-table-async
+                            [columns]="columns"
+                            [asyncRow]="asyncFiles"
+                            [showPagination]="false"
+                            [isLoading]="isLoading"></app-table-async>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="selectedFile">
+    <div class="col-md-12 grid-margin stretch-card p-0">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="pl-4 pr-4 pt-4 pb-3">
+                    <a class="file-back-action" (click)="onBack()">Vorige pagina</a>
+                    <h3><b>{{selectedFile.label || selectedFile.name}}</b></h3>
+                </div>
+
+                <div class="row file-section">
+                    <div class="col-sm-8 file-container pl-4 pr-4 pt-3 pb-3">
+                        <img *ngIf="+selectedFile.type_id === 2"
+                             [src]="selectedFile.fileUrl"
+                             alt="">
+                        <iframe *ngIf="+selectedFile.type_id !== 2"
+                                [src]="selectedFile.fileUrl"
+                                width="100%"
+                                height="100%">
+                        </iframe>
+                    </div>
+                    <div class="col-sm-4 form-container pl-3 pr-3 pt-3 pb-3">
+                        <div>
+                            <div class="file-detail-section">
+                                <div><strong>Bestandsnaam:</strong> {{selectedFile.name}}</div>
+                                <div><strong>Bestandstype:</strong> {{selectedFile.mimetype}}</div>
+                                <div><strong>Geupload op:</strong> {{selectedFile.created_at | date: 'dd-MM-yyyy'}}
+                                </div>
+                                <div><strong>Bestandgrotte:</strong> {{selectedFile.size | fileSize}}</div>
+                            </div>
+                            <form action="">
+                                <div>
+                                    <shared-form-input label="Titel" placeholder="Enter the titel" controlName="label"
+                                                       [group]="fileForm"></shared-form-input>
+                                </div>
+                                <div>
+                                    <shared-form-textarea label="Beschrijving" placeholder="Enter the description"
+                                                          controlName="description"
+                                                          [group]="fileForm" [rows]="5"></shared-form-textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="form-submit-container">
+                            <a *ngIf="isAdmin" class="delete-file-link" (click)="onDeleteSelectedFile()">Permanent verwijderen</a>
+                            <button type="button" class="btn btn-primary save-btn" (click)="onSubmitEdit()">
+                                Wijzigingen opslaan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #nameTpl let-value="value" let-row="row">
+    <a *ngIf="row.type === 'folder'"
+       (click)="openSomething(row)"
+       class="folder-action">
+        <i class="link-icon mdi mdi-folder"></i> <span>{{value}}</span>
+    </a>
+
+    <div *ngIf="row.type === 'file'" (click)="onSelectFile(row)" class="file-action">
+        <i class="link-icon mdi" [ngClass]="+row.type_id === 2 ? 'mdi-file-image' : 'mdi-file'"></i>
+        <div>
+            <div class="file-label">{{row.label || row.name}}</div>
+            <div class="file-name">{{row.name}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #dateTpl let-value="value">
+    {{value | date: 'dd-MM-yyyy'}}
+</ng-template>
+<ng-template #downloadTpl let-value="value" let-row="row">
+    <a *ngIf="row.type === 'file'" class="download-link" (click)="onSaveFile(row)"><i
+            class="link-icon mdi mdi-download"></i></a>
+</ng-template>
+
+<ng-template #modalBodyTpl>
+    <span>Weet je zeker dat je dit bestand wilt verwijderen?</span>
+</ng-template>
+

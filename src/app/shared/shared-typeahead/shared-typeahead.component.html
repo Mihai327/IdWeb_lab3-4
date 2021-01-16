@@ -1,0 +1,4 @@
+<input id="typeahead-focus" type="text" class="form-control" [(ngModel)]="typeaheadModel" placeholder="All company"
+       [ngbTypeahead]="focusSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"
+       (focus)="focus$.next($event.target.value)"
+       (click)="click$.next($event.target.value)" #instance="ngbTypeahead"/>

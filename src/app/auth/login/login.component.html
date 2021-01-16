@@ -1,0 +1,55 @@
+<div class="d-flex align-items-center auth login-bg theme-one">
+    <div class="w-100">
+        <div class="auth-ct">
+            <div class="text-center mb-4">
+                <img class="img-fluid w-25 auth-logo" src="assets/images/misti-logo-white-2.svg" alt="brand logo">
+            </div>
+            <div class="auto-form-wrapper">
+                <form [formGroup]="form" (submit)="onSubmit()">
+                    <div class="form-group">
+                        <label class="label">Gebruikersnaam</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Vul je gebruikersnaam in..." formControlName="email">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i *ngIf="email.valid && !errorMessage"
+                                       class="mdi mdi-check-circle-outline auth-icon-valid"></i>
+                                    <i *ngIf="(email.touched && email.invalid || errorMessage)"
+                                       class="mdi mdi-close-circle-outline auth-icon-invalid"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Wachtwoord</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Vul je wachtwoord in..."
+                                   formControlName="password">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i *ngIf="password.valid && !errorMessage"
+                                       class="mdi mdi-check-circle-outline auth-icon-valid"></i>
+                                    <i *ngIf="(password.touched && password.invalid || errorMessage)"
+                                       class="mdi mdi-close-circle-outline auth-icon-invalid"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div *ngIf="errorMessage">{{errorMessage}}</div>
+                        <button type="submit" class="btn btn-primary submit-btn btn-block" [disabled]="form.disabled">
+                            Inloggen
+                        </button>
+                    </div>
+                    <div class="form-group d-flex justify-content-end align-items-center">
+                        <a routerLink="/forgot" class="text-small forgot-password text-black">Wachtwoord vergeten?</a>
+                    </div>
+                    <div class="text-block text-center my-3">
+                        <span class="text-small font-weight-semibold">Nog geen account? </span>
+                        <a routerLink="/register" class="text-black text-small">Account aanvragen</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

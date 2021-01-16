@@ -1,0 +1,60 @@
+<div *ngIf="!groupName" class="form-group row" [formGroup]="group">
+    <label class="form-control-label" [ngClass]="labelClass || 'col-sm-12'" [for]="controlName">{{ label }}</label>
+    <div [ngClass]="controlClass || 'col-sm-12'" class="">
+        <div class="input-group">
+            <input class="form-control"
+                   ngbDatepicker
+                   #d="ngbDatepicker"
+                   [ngClass]="{ 'is-invalid': (control.dirty || control.touched) && control.invalid && control.errors}"
+                   [id]="controlName"
+                   [formControlName]="controlName"
+                   [placeholder]="placeholder"
+                   [type]="type"
+                   (focus)="focus.emit()"
+                   (focusout)="focusOut.emit()"/>
+            <div class="input-group-append">
+                <button class="btn btn-primary btn-calendar" (click)="d.toggle()" type="button"><i
+                        class="mdi mdi-calendar"></i></button>
+            </div>
+        </div>
+        <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+    </div>
+</div>
+
+<div *ngIf="groupName" class="form-group" [formGroup]="group">
+    <div [formGroupName]="groupName" class="row">
+        <label class="form-control-label" [ngClass]="labelClass || 'col-sm-12'" [for]="controlName">{{ label }}</label>
+        <div [ngClass]="controlClass || 'col-sm-12'" class="">
+            <div class="input-group">
+                <input class="form-control"
+                       ngbDatepicker
+                       #d="ngbDatepicker"
+                       [id]="controlName"
+                       [formControlName]="controlName"
+                       [type]="type"
+                       (focus)="focus.emit()"
+                       (focusout)="focusOut.emit()"
+                       (click)="d.toggle()"/>
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-calendar" (click)="d.toggle()" type="button"><i
+                            class="mdi mdi-calendar"></i></button>
+                </div>
+            </div>
+            <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #validationContent>
+    <div *ngIf="(control.touched || control.dirty) && control.errors">
+        <div *ngIf="control.errors.maxlength" class="invalid-feedback">{{ label }} is too long.</div>
+        <div *ngIf="control.errors.required" class="invalid-feedback">{{ label }} is verplicht.</div>
+        <div *ngIf="control.errors.minlength" class="invalid-feedback">{{ label }} need to be at least 8 characters.
+        </div>
+        <div *ngIf="control.errors.email" class="invalid-feedback">Please enter a valid email address.</div>
+        <div *ngIf="control.errors.pattern"
+             class="invalid-feedback">{{errorMessages && errorMessages['pattern'] || 'Please enter a valid ' + label}}</div>
+        <div *ngIf="control.errors.mustMatch"
+             class="invalid-feedback">{{ errorMessages && errorMessages['match'] || 'The field is invalid' }}</div>
+    </div>
+</ng-template>

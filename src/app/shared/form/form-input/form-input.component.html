@@ -1,0 +1,73 @@
+<div *ngIf="!groupName" class="form-group row" [formGroup]="group">
+    <label class="form-control-label" [ngClass]="labelClass || 'col-sm-12'" [for]="controlName">{{ label }}</label>
+    <div *ngIf="subLabel" class=" col-sm-12 from-control-sublabel"><small>{{subLabel}}</small></div>
+    <div class="input-group" [ngClass]="controlClass || 'col-sm-12'">
+        <input class="form-control"
+               [ngClass]="{ 'is-invalid': (control.dirty || control.touched) && control.invalid && control.errors}"
+               [id]="controlName"
+               [formControlName]="controlName"
+               [placeholder]="placeholder"
+               [type]="type"
+               (focus)="focus.emit()"
+               (focusout)="focusOut.emit()"/>
+        <ng-container *ngTemplateOutlet="afterGroup"></ng-container>
+    </div>
+    <div [ngClass]="controlClass || 'col-sm-12'">
+        <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+    </div>
+</div>
+
+<div *ngIf="groupName" [formGroup]="group">
+    <div [formGroupName]="groupName" class="form-group row">
+        <label class="form-control-label" [ngClass]="labelClass || 'col-sm-12'" [for]="controlName">{{ label }}</label>
+        <div *ngIf="subLabel" class="col-sm-12 from-control-sublabel"><small>{{subLabel}}</small></div>
+        <div [ngClass]="controlClass || 'col-sm-12'">
+            <input class="form-control"
+                   [id]="controlName"
+                   [ngClass]="{ 'is-invalid': (control.dirty || control.touched) && control.invalid && control.errors}"
+                   [placeholder]="placeholder"
+                   [formControlName]="controlName"
+                   [type]="type"
+                   (focus)="focus.emit()"
+                   (focusout)="focusOut.emit()"
+            />
+            <ng-template *ngIf="afterGroupIcon">
+                <ng-container *ngTemplateOutlet="afterGroup"></ng-container>
+            </ng-template>
+        </div>
+        <div [ngClass]="controlClass || 'col-sm-12'">
+            <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #afterGroup>
+    <div *ngIf="afterGroupIcon" class="input-group-append">
+        <span class="input-group-text" [class.clickable]="afterGroupTooltip" placement="bottom"
+              [ngbTooltip]="afterGroupTooltip">
+            <i class="mdi" [ngClass]="afterGroupIcon"></i>
+        </span>
+    </div>
+</ng-template>
+
+<ng-template #validationContent>
+    <div *ngIf="(control.touched || control.dirty) && control.errors; else apiErrors">
+        <div *ngIf="control.errors.maxlength" class="invalid-feedback">{{ label }} is too long.</div>
+        <div *ngIf="control.errors.required" class="invalid-feedback">{{ label }} is verplicht.</div>
+        <div *ngIf="control.errors.minlength" class="invalid-feedback">{{ label }} need to be at least 8 characters.
+        </div>
+        <div *ngIf="control.errors.email" class="invalid-feedback">Please enter a valid email address.</div>
+        <div *ngIf="control.errors.pattern"
+             class="invalid-feedback">{{errorMessages && errorMessages['pattern'] || 'Please enter a valid ' + label}}</div>
+        <div *ngIf="control.errors.mustMatch"
+             class="invalid-feedback">{{ errorMessages && errorMessages['mustMatch'] || 'The field is invalid' }}</div>
+        <div *ngIf="control.errors.invalidDate" class="invalid-feedback">The date is invalid. (Ex. 1995).</div>
+        <div *ngIf="control.errors.invalidUrl" class="invalid-feedback">The URL is invalid.</div>
+    </div>
+</ng-template>
+
+<ng-template #apiErrors>
+    <div class="invalid-feedback">
+        <span *ngFor="let err of apiError">{{err + ' '}}</span>
+    </div>
+</ng-template>

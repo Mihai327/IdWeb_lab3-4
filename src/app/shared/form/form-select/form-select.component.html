@@ -1,0 +1,31 @@
+<div *ngIf="!groupName" class="form-group bootstrap-theme" [formGroup]="group"
+     [ngClass]="{ 'has-danger': control.invalid && (control.dirty || control.touched)}">
+    <label class="form-control-label" [for]="controlName">{{ label }}</label>
+    <ng-select
+            *ngIf="!isAsync"
+            [ngClass]="{ 'is-invalid': control.invalid && (control.dirty || control.touched) }"
+            [id]="controlName"
+            [placeholder]="placeholder"
+            [items]="options"
+            [addTag]="addTag"
+            [bindLabel]="bindLabel"
+            [bindValue]="bindValue"
+            [formControlName]="controlName"
+            [multiple]="multi"
+            (change)="onChange($event)">
+    </ng-select>
+    <ng-select
+            *ngIf="isAsync"
+            [ngClass]="{ 'is-invalid': control.invalid && (control.dirty || control.touched) }"
+            [id]="controlName"
+            [placeholder]="placeholder"
+            [items]="optionsAsync | async"
+            [bindLabel]="bindLabel"
+            [bindValue]="bindValue"
+            [formControlName]="controlName"
+            [multiple]="multi">
+    </ng-select>
+    <div *ngIf=" (control.dirty || control.touched) && control.errors && control.errors.required"
+         class="invalid-feedback" [style.display]="'block'">{{ label }} is verplicht.
+    </div>
+</div>

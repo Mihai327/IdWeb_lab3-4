@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <ul ngbNav [activeId]="activatedTab" class="nav-tabs">
+                    <li [ngbNavItem]="tab.ref" *ngFor="let tab of tabs">
+                        <a ngbNavLink [routerLink]="[tab.link]">{{ tab.title }}</a>
+                    </li>
+                </ul>
+
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

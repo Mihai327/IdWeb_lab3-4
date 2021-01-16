@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-12">
+                <shared-form-select label="Gebruikerstype" placeholder="Selecteer de rol van de gebruiker"
+                                    controlName="type_id" [group]="form" [options]="formOptions.userTypes"
+                                    bindLabel="name" bindValue="id"
+                                    (change)="onChangeUserType($event)"></shared-form-select>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-typeahead label="Bedrijf" placeholder="Selecteer het bedrijf" controlName="company_id"
+                                       [group]="form"
+                                       [serverService]="companyService"
+                                       [serverServiceFunction]="'getCompanies'"
+                                       [serverServiceFunctionParams]="{fields: 'id,name'}"></shared-form-typeahead>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Voornaam" placeholder="Voer de voornaam in" controlName="first_name"
+                                   [group]="form" [apiError]="errors.first_name"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Achternaam" placeholder="Voer de achternaam in" controlName="last_name"
+                                   [group]="form" [apiError]="errors.last_name"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="E-mailadres" placeholder="Voer het e-mailadres in" controlName="email"
+                                   [group]="form" [apiError]="errors.email"></shared-form-input>
+            </div>
+            <div class="col-sm-12">
+                <shared-form-input label="Telefoonnummer" placeholder="Voer het telefoonnummer in" controlName="phone"
+                                   [group]="form"></shared-form-input>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Annuleren</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Opslaan</button>
+</div>

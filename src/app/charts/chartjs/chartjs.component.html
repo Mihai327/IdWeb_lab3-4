@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Line chart</h4>
+                <canvas heigth="250" baseChart [chartType]="'line'" [datasets]="lineChartData" [labels]="Chartlabels"
+                        [options]="ChartOptions"
+                        [legend]="false" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Bar chart</h4>
+                <canvas heigth="230" baseChart [chartType]="'bar'" [datasets]="ChartData" [labels]="Chartlabels"
+                        [options]="ChartOptions"
+                        [legend]="false" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Area chart</h4>
+                <canvas heigth="250" baseChart [chartType]="'line'" [datasets]="ChartData" [labels]="Chartlabels"
+                        [options]="ChartOptions"
+                        [legend]="false" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Doughnut chart</h4>
+                <canvas heigth="250" baseChart [chartType]="'doughnut'" [datasets]="doughnutChartData"
+                        [labels]="doughnutChartlabels"
+                        [options]="doughnutChartOptions" [legend]="true" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Pie chart</h4>
+                <canvas heigth="250" baseChart [chartType]="'pie'" [datasets]="doughnutChartData"
+                        [labels]="doughnutChartlabels"
+                        [options]="doughnutChartOptions" [legend]="true" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Scatter chart</h4>
+                <canvas heigth="250" baseChart [chartType]="'scatter'" [datasets]="scatteredChartData"
+                        [labels]="scatteredChartlabels"
+                        [options]="scatteredChartOptions" [legend]="true" [colors]="ChartColors">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

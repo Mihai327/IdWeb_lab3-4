@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4><a href="/" class="custom-link">Terug naar homepagina</a></h4>
+                <h3><b>Onderhoud</b></h3>
+                <div class="filter-ct">
+                    <app-filter [fields]="filterFields" (filter)="onFilter($event)"
+                                [cssOffsetClassesBtn]="['offset-sm-6', 'text-sm-right']"></app-filter>
+                </div>
+
+                <div>
+                    <app-table-async
+                            [columns]="columns"
+                            [asyncRow]="asyncMaintenance"
+                            [meta]="meta"
+                            [isLoading]="isLoading"
+                            (onPage)="pageChanged($event)"></app-table-async>
+
+                    <div class="text-right mt-4">
+                        <button [hidden]="!isAdminUser" class="btn btn-misti" (click)="onCreateMaintenance()">Onderhoud
+                            inplannen
+                        </button>
+                    </div>
+                </div>
+
+                <ng-template #skeletonTable>
+                    <skeleton-table></skeleton-table>
+                </ng-template>
+
+                <ng-template #nameTemplate let-value="value">
+                    <span *ngIf="value">{{value.first_name}} {{value.last_name}}</span>
+                </ng-template>
+
+                <ng-template #dateTemplate let-value="value">
+                    <span>{{value | date:'dd-MM-yyyy'}}</span>
+                </ng-template>
+
+                <ng-template #statusTemplate let-value="value">
+                    <span class="badge text-white" [style.backgroundColor]="value.color">{{value.name}}</span>
+                </ng-template>
+
+                <ng-template #actionTemplate let-value="value" let-row="row">
+                    <div class="table-actions">
+                        <i [hidden]="!isAdminUser" class="mdi mdi mdi-pencil clickable icon-edit"
+                           (click)="onUpdateMaintenance(row)"></i>
+                        <i [hidden]="!isAdminUser" class="mdi mdi mdi-delete clickable icon-delete"
+                           (click)="onDeleteMaintenance(row)"></i>
+                        <i [hidden]="!isKlantUser && !isAdminUser" class="mdi mdi mdi-magnify clickable icon-delete"
+                           [routerLink]="['../inspect', row.id]" title="Bekijken"></i>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalBodyTpl let-row="row">
+    <span>Weet u zeker dat u het onderhoudsplan wilt verwijderen?</span>
+</ng-template>
+

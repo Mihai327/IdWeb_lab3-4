@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <ng-container
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="{object: object, contactTpl: contactTpl}">
+    </ng-container>
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <textarea class="form-control my-2"
+               [(ngModel)]="messageControl"
+               [placeholder]="placeholder" 
+               name="message"
+               #message="ngModel"
+               rows="6"
+        ></textarea>
+        <div>
+            <button type="submit" [disabled]="!messageControl" class="btn btn-misti">{{textButton}}</button>
+        </div>
+    </form>
+</div>
+
+<ng-template #contactTpl>
+    <div class="d-flex align-items-center avatar">
+        <div class="large-avatar">
+            <img class="user-avatar" [src]="contactPersonProfileImage">
+        </div>
+        <div>
+            <div class="d-flex align-items-center"><i class="mdi mdi-phone mx-2"></i><a class="black-link-redirect" href="tel:{{contactPerson.phone}}">{{contactPerson.phone}}</a></div>
+        </div>
+    </div>
+</ng-template>

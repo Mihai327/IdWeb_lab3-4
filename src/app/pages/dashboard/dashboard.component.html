@@ -1,0 +1,131 @@
+<div class="row">
+    <div *ngIf="!maintenanceEmptyState" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4><b>Onderhoud</b></h4>
+                <div class="empty-box maintenance">
+                    <app-table-async
+                            [columns]="columnsMaintenance"
+                            [asyncRow]="asyncMaintenance"
+                            [meta]="meta"
+                            [isLoading]="isLoadingMaintenance"
+                            [showPagination]="false"></app-table-async>
+
+                    <div class="text-right">
+                        <a [routerLink]="['/maintenance/list']" class="black-link-redirect">Alles bekijken</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="maintenanceEmptyState" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="empty-box">
+                    <img src="../../../assets/images/ship/ship-empty.png" alt="" width="100">
+                    <p>Er is nog geen toekomstig onderhoud gepland. <a href="">Onderhoud inplannen</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isAdmin && !loading.ships" class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card" *ngFor="let ship of ships">
+        <div class="card">
+            <div class="card-body">
+                <h4><b>{{ship.name}}</b></h4>
+                <div class="row empty-ship-box">
+                    <div class="col-sm-3 ship-thumbnail">
+                        <img *ngIf="ship.image" [src]="sourceUrl + ship.image" alt="" width="100%">
+                    </div>
+                    <div class="col-sm-9 ship-content">
+                        <app-table-async
+                                [columns]="columnsShip"
+                                [asyncRow]="ship.productAsync"
+                                [meta]="meta"
+                                [showPagination]="false"></app-table-async>
+
+                        <div class="text-right mt-5">
+                            <a [routerLink]="['/administrator/ships', ship.id]" class="black-link-redirect">Schippagina
+                                bekijken</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!ships.length" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row empty-ship-box">
+                    <div class="col-sm-3 ship-thumbnail">
+                        <img src="../../../assets/images/ship/ship-empty.png" alt="" width="100">
+                    </div>
+                    <div class="col-sm-9 ship-content">
+                        <p>Er is momenteel nog geen schip toegevoegd aan uw Misti omgeving.</p>
+                        <p><a href="">Neem contact met ons op</a> voor meer informatie</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #skeletonTable>
+    <skeleton-table></skeleton-table>
+</ng-template>
+
+<ng-template #nameTemplate let-value="value">
+    <div *ngIf="value" class="d-flex align-items-center">
+        <div class="user-avatar-height">
+            <img class="user-avatar" [src]="sourceUrl + value.profile_picture"> <!--*ngIf="user.image && user.name"-->
+        </div>
+        <div>{{value.first_name}} {{value.last_name}}</div>
+    </div>
+</ng-template>
+
+<ng-template #dateTemplate let-value="value" let-row="row">
+    <span>{{value | date:'dd-MM-yyyy'}}</span>
+</ng-template>
+<ng-template #upcomingTemplate let-value="value" let-row="row">
+    <span *ngIf="value">{{value.date | date:'dd-MM-yyyy'}}</span>
+    <span *ngIf="!value" class="black-link-redirect" (click)="onOpenInplannenModal(row)">Inplannen</span>
+</ng-template>
+
+<ng-template #statusTemplate let-value="value">
+    <span class="badge text-white" [style.backgroundColor]="value.color">{{value.name}}</span>
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-column="column">
+    <a [routerLink]="[column.routerLink, value]" class="black-link-redirect">{{column.label}}</a>
+</ng-template>
+
+<ng-template #problemTemplate let-value="value" let-row="row">
+    <span class="black-link-redirect" (click)="onOpenProblemModal(row)">Probleem melden</span>
+</ng-template>
+
+<ng-template #linkTpl let-value="value" let-row="row" let-column="column">
+    <a [routerLink]="[column.routerLink, value.id]" class="black-link-redirect">{{value.name}}</a>
+</ng-template>
+
+<ng-template #modalMaintenanceTpl let-obj="object" let-template="contactTpl">
+    <span>U heeft aangegeven een onderhoudsafspraak te willen inplannen m.b.t het product <span
+            class="highlighted">{{obj.product}}</span>
+    bevestigd op het schip <span class="highlighted">{{obj.ship}}</span>.</span>
+    <p class="mt-3 mb-2"><b>Bel uw contactpersoon</b></p>
+    <ng-container [ngTemplateOutlet]="template"></ng-container>
+    <p class="mt-3 mb-1"><b>Laat uw contactpersoon contact opnemen</b></p>
+    <span>Uw contactpersoon zal binnen 24 uur contact met u opnemen om telefonisch een onderhoudsafspraak in te plannen.</span>
+</ng-template>
+
+<ng-template #modalProblemTpl let-obj="object" let-template="contactTpl">
+    <span>U heeft aangegeven een probleem te willen melden m.b.t het product <span
+            class="highlighted">{{obj.product}}</span>
+    bevestigd op het schip <span class="highlighted">{{obj.ship}}</span>.</span>
+    <p class="mt-3 mb-2"><b>Bel uw contactpersoon</b></p>
+    <ng-container [ngTemplateOutlet]="template"></ng-container>
+    <p class="mt-3 mb-1"><b>Mail uw contactpersoon</b></p>
+    <span>Uw contactpersoon zal binnen 24 uur contact met u opnemen en u verder helpen. Hou de inbox van uw email in de gaten voor een reactie.</span>
+</ng-template>

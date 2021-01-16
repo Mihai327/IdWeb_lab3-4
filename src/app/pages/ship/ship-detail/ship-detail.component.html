@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <img [src]="shipImage" width="100%">
+                        <div class="row justify-content-between mb-3 mt-4">
+                            <div class="col">
+                                <h4><b>Afbeeldingen</b></h4>
+                            </div>
+                            <div class="col text-right">
+                                <span class="black-link-redirect clickable" routerLink="/file" [queryParams]="{source: 'ship', identifier: ship.id}">Alle afbeeldingen</span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="ship.documents.length; else nothingImgTpl" class="row">
+                            <div *ngFor="let file of ship.documents" class="padding">
+                                <div class="image-card" (click)="onOpenDocument(file, 'image')">
+                                    <img [src]="file.fileUrl" alt="" width="120">
+                                    <div class="overlay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="mb-4"><b>{{ship.name}}</b></h4>
+
+                                <h5 class="mb-4"><b>Producten</b></h5>
+                                <div class="mb-4">
+                                    <ng-container *ngTemplateOutlet="productTable;context:ship"></ng-container>
+                                </div>
+
+                                <h5 class="mb-4"><b>Details</b></h5>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Naam</strong>
+                                    <span>{{ship.name}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>EU Nummer</strong>
+                                    <span>{{ship.eu_number | date:'dd-MM-yyyy'}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Bouwjaar</strong
+                                    ><span>{{ship.build_year}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Type</strong
+                                    ><span>{{ship.type}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between custom-row">
+                                    <strong>Nationaliteit</strong
+                                    ><span>{{ship.nationality}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #productTable let-products="products">
+    <div clas="detail-table">
+        <div class="detail-table__row">
+            <div><strong>Product</strong></div>
+            <div><strong>Meldingen</strong></div>
+            <div class="text-right"><strong>Ankomend onderhoud</strong></div>
+        </div>
+        <div class="detail-table__row" *ngFor="let product of products">
+            <div class="black-link-redirect" [routerLink]="['/administrator/products', product.id]">{{product.name}}</div>
+            <div class="black-link-redirect" (click)="onOpenProblemModal(product)">Probleem melden</div>
+            <div class="text-right">
+                <span *ngIf="product.upcoming_maintenance">{{product.upcoming_maintenance.date | date:'dd-MM-yyyy'}}</span>
+                <span *ngIf="!product.upcoming_maintenance"class="black-link-redirect" (click)="onOpenInplannenModal(product)">Inplannen</span>
+            </div>
+        </div>
+
+
+    </div>
+
+</ng-template>
+
+<ng-template #nothingImgTpl>
+    <div><small>Er is nog geen afbeelding toegevoegd</small></div>
+</ng-template>
+<ng-template #nothingDocTpl>
+    <div><small>Er is nog geen document toegevoegd</small></div>
+</ng-template>
+
+<ng-template #upcomingTemplate let-value="value" let-row="row">
+    <span *ngIf="value">{{value.date | date:'dd-MM-yyyy'}}</span>
+    <span *ngIf="!value"class="black-link-redirect" (click)="onOpenInplannenModal(row)">Inplannen</span>
+</ng-template>
+
+<ng-template #modalMaintenanceTpl let-obj="object" let-template="contactTpl">
+    <span>U heeft aangegeven een onderhoudsafspraak te willen inplannen m.b.t het product <span class="highlighted">{{obj.product}}</span>
+    bevestigd op het schip <span class="highlighted">{{obj.ship}}</span>.</span>
+    <p class="mt-3 mb-2"><b>Bel uw contactpersoon</b></p>
+    <ng-container [ngTemplateOutlet]="template"></ng-container>
+    <p class="mt-3 mb-1"><b>Laat uw contactpersoon contact opnemen</b></p>
+    <span>Uw contactpersoon zal binnen 24 uur contact met u opnemen om telefonisch een onderhoudsafspraak in te plannen.</span>
+</ng-template>
+
+<ng-template #modalProblemTpl let-obj="object" let-template="contactTpl">
+    <span>U heeft aangegeven een probleem te willen melden m.b.t het product <span class="highlighted">{{obj.product}}</span>
+    bevestigd op het schip <span class="highlighted">{{obj.ship}}</span>.</span>
+    <p class="mt-3 mb-2"><b>Bel uw contactpersoon</b></p>
+    <ng-container [ngTemplateOutlet]="template"></ng-container>
+    <p class="mt-3 mb-1"><b>Mail uw contactpersoon</b></p>
+    <span>Uw contactpersoon zal binnen 24 uur contact met u opnemen en u verder helpen. Hou de inbox van uw email in de gaten voor een reactie.</span>
+</ng-template>

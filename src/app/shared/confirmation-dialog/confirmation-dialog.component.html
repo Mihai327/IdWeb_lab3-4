@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <ng-container
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="{row: row}">
+    </ng-container>
+    <form *ngIf="withForm" #deleteForm="ngForm">
+        <br>
+        <input class="form-control"
+               [ngClass]="{ 'is-invalid': (delete.dirty || delete.touched) && delete.invalid && delete.errors}"
+               [(ngModel)]="control"
+               [placeholder]="pattern"
+               [pattern]="pattern"
+               required
+               name="delete"
+               #delete="ngModel"
+        />
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Nee</button>
+    <button type="button" class="btn btn-outline-dark" [disabled]="deleteForm && deleteForm.invalid"
+            (click)="activeModal.close(true)">Ja
+    </button>
+</div>

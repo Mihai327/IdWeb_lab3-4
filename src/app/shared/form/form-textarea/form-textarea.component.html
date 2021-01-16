@@ -1,0 +1,38 @@
+<div *ngIf="!groupName" class=" form-group" [formGroup]="group">
+    <label class="form-control-label" [for]="controlName">{{ label }}</label>
+    <textarea class="form-control" [style.max-height.px]="200"
+              [ngClass]="{ 'is-invalid': (control.dirty || control.touched) && control.invalid && control.errors}"
+              [id]="controlName"
+              [formControlName]="controlName"
+              [placeholder]="placeholder"
+              [rows]="rows"
+              (focus)="focus.emit()"
+              (focusout)="focusOut.emit()"
+    ></textarea>
+    <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+</div>
+
+<div *ngIf="groupName" class="form-group" [formGroup]="group">
+    <div [formGroupName]="groupName">
+        <label class="form-control-label" [for]="controlName">{{ label }}</label>
+        <textarea class="form-control" [style.max-height.px]="200"
+                  [ngClass]="{ 'is-invalid': (control.dirty || control.touched) && control.invalid && control.errors}"
+                  [id]="controlName"
+                  [formControlName]="controlName"
+                  [placeholder]="placeholder"
+                  [rows]="rows"
+                  (focus)="focus.emit()"
+                  (focusout)="focusOut.emit()"
+        ></textarea>
+        <ng-container *ngTemplateOutlet="validationContent"></ng-container>
+    </div>
+</div>
+
+<ng-template #validationContent>
+    <div *ngIf="(control.touched || control.dirty) && control.errors">
+        <div *ngIf="control.errors.maxlength" class="invalid-feedback">{{ label }} is too long.</div>
+        <div *ngIf="control.errors.required" class="invalid-feedback">{{ label }} is verplicht.</div>
+        <div *ngIf="control.errors.minlength" class="invalid-feedback">{{ label }} need to be at least 8 characters.
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,57 @@
+<div class="filter-ct mb-0">
+    <app-filter [fields]="filterFields" (filter)="onFilter($event)"></app-filter>
+</div>
+<div class="row">
+    <div class="offset-sm-9 col-sm-3">
+        <div class="form-check custom-check float-right">
+            <label class="form-check-label">
+                <input class="checkbox" type="checkbox" (change)="onShowDeactivatedEntries($event)">
+                <i class="input-helper"></i>
+                Toon gedeactiveerde items
+            </label>
+        </div>
+    </div>
+</div>
+<div>
+    <app-table-async
+            [columns]="columns"
+            [asyncRow]="asyncUsers"
+            [meta]="meta"
+            [isLoading]="isLoading"
+            (onPage)="pageChanged($event)"
+            rowClass="deleted-row"
+            whenApplyRowClass="deleted_at"></app-table-async>
+
+    <div *ngIf="userFormOptions" class="text-right mt-4">
+        <button class="btn btn-misti" (click)="onCreateUser()">Nieuwe gebruiker toevoegen</button>
+    </div>
+</div>
+
+<ng-template #skeletonTable>
+    <skeleton-table></skeleton-table>
+</ng-template>
+
+<ng-template #nameTemplate let-row="row">
+    {{row.first_name}} {{row.last_name}}
+</ng-template>
+
+<ng-template #actionTemplate let-value="value" let-row="row">
+    <div class="table-actions">
+        <!--        <i class="mdi mdi mdi-pencil clickable icon-edit"></i>-->
+        <i *ngIf="row.deleted_at else delete" class="mdi mdi mdi-check clickable icon-activate" (click)="onActivateUser(row)" title="Activate user"></i>
+        <ng-template #delete><i class="mdi mdi mdi-delete clickable icon-delete" (click)="onDeleteUser(row)"></i></ng-template>
+    </div>
+</ng-template>
+
+<ng-template #modalBodyTpl let-row="row">
+    <span>Weet u zeker dat u de gebruiker <span class="highlighted">{{row.first_name}} {{row.last_name}}</span> wilt deactiveren??
+    De gebruiker heeft geen toegang meer tot zijn account totdat de gebruiker opnieuw is geactiveerd.</span>
+    <br>
+    <br>
+    <span>Typ <b>DEACTIVEER</b> in het onderstaande veld om door te gaan met het verwijderen van de gebruiker.</span>
+</ng-template>
+
+<ng-template #activateBodyTpl let-row="row">
+    <span>Are you sure you want to activate the user <span class="highlighted">{{row.first_name}} {{row.last_name}}</span>?</span>
+</ng-template>
+

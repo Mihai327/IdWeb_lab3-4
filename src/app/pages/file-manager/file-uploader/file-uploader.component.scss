@@ -1,0 +1,77 @@
+$primary-color: #e64a25;
+
+.image-container {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.file-item {
+  position: relative;
+  margin: 5px;
+
+  .delete-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    &:hover {
+      i {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.upload-section {
+  min-height: 60vh;
+  border-top: 2px solid #dcdcdc;
+  margin: 0;
+}
+
+.add-new-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary-color;
+  height: 120px;
+  width: 100px;
+  margin: 5px;
+
+  i {
+    color: white;
+    font-size: 25px;
+  }
+}
+
+.document-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100px;
+  background-color: #fafafa;
+
+  i {
+    color: #969696;
+    font-size: 25px;
+  }
+}
+
+.file-label {
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  justify-content: space-between;
+}
+
+.save-btn {
+  height: 35px;
+}

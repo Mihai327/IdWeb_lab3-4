@@ -1,0 +1,14 @@
+.ng-reflect-required {
+  label.form-control-label::after {
+    content: "*";
+    color: red;
+  }
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.from-control-sublabel {
+  margin-bottom: 10px;
+}

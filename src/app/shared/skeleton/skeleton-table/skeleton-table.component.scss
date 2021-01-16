@@ -1,0 +1,20 @@
+.skeleton-table {
+  &__header {
+    background-color: #fbfbfb;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      width: 20%;
+    }
+  }
+
+  &__row {
+    padding: 10px 20px;
+
+    &:nth-of-type(even) {
+      background-color: #fbfbfb;
+    }
+  }
+}

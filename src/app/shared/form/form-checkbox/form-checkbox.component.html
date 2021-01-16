@@ -1,0 +1,13 @@
+<div class="form-group has-danger" [ngClass]="containerClass || ''" [formGroup]="group">
+    <div class="form-check">
+        <input
+                class="form-check-input"
+                [id]="controlName"
+                [formControlName]="controlName"
+                type="checkbox"
+        />
+        <label class="form-check-label" [for]="controlName">
+            {{ label }}
+        </label>
+    </div>
+</div>
